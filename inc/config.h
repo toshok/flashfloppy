@@ -72,23 +72,24 @@ struct packed ff_cfg {
 #define TRKCHG_instant  0
 #define TRKCHG_realtime 1
     uint8_t track_change;
-#define HOST_unspecified 0
-#define HOST_akai        1
-#define HOST_gem         2
-#define HOST_ensoniq     3
-#define HOST_acorn       4
-#define HOST_ti99        5
-#define HOST_memotech    6
-#define HOST_uknc        7
-#define HOST_pc98        8
-#define HOST_pc_dos      9
-#define HOST_msx        10
-#define HOST_dec        11
-#define HOST_tandy_coco 12
-#define HOST_fluke      13
-#define HOST_nascom     15
-#define HOST_casio      16
-#define HOST_ibm_3174   17
+#define HOST_unspecified   0
+#define HOST_akai          1
+#define HOST_gem           2
+#define HOST_ensoniq       3
+#define HOST_acorn         4
+#define HOST_ti99          5
+#define HOST_memotech      6
+#define HOST_uknc          7
+#define HOST_pc98          8
+#define HOST_pc_dos        9
+#define HOST_msx          10
+#define HOST_dec          11
+#define HOST_tandy_coco   12
+#define HOST_fluke        13
+#define HOST_nascom       15
+#define HOST_casio        16
+#define HOST_ibm_3174     17
+#define HOST_apollo_dn300 18
     uint8_t host;
     /* Bitfields within display_type field. */
 #define DISPLAY_auto     0

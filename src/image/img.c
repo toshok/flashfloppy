@@ -122,6 +122,9 @@ const static struct raw_type {
     /* Akai HD: 10*1kB sectors */
     { 10, _S(2), _IAM, 116, 1, 3, 1, 0, 5, 0, _C(80), _R(300) },
     { 0 }
+}, apollo_dn300_type[] = {
+    /* Apollo DN300 DSDS: 8 * 1kB sectors */
+    {  8, _S(2), _IAM, 116, 1, 3, 1, 0, 2, 0, _C(77), _R(360) },
 }, casio_type[] = {
     { 8, _S(2), _IAM, 116, 3, 3, 1, 0, 0, 0, _C(80), _R(360) }, /* 1280k */
     { 0 }
@@ -544,6 +547,9 @@ static bool_t img_open(struct image *im)
     case HOST_akai:
     case HOST_gem:
         type = akai_type;
+        break;
+    case HOST_apollo_dn300:
+        type = apollo_dn300_type;
         break;
     case HOST_casio:
         type = casio_type;
@@ -2180,8 +2186,10 @@ static void *align_p(void *p)
 static void check_p(void *p, struct image *im)
 {
     uint8_t *a = p, *b = (uint8_t *)im->bufs.read_data.p;
-    if ((int32_t)(a-b) < 1024)
+    if ((int32_t)(a-b) < 1024) {
+        printk("**** check_p failed.\n");
         F_die(FR_BAD_IMAGE);
+    }
     im->img.heap_bottom = p;
 }
 
@@ -2199,8 +2207,10 @@ static uint8_t *init_track_map(struct image *im)
     void *p;
 
     if ((im->nr_sides < 1) || (im->nr_sides > 2)
-        || (im->nr_cyls < 1) || (im->nr_cyls > 255))
+        || (im->nr_cyls < 1) || (im->nr_cyls > 255)) {
+        printk("**** init_track_map failed.\n");
         F_die(FR_BAD_IMAGE);
+    }
 
     ASSERT(im->img.trk_info == NULL);
 
@@ -2232,8 +2242,10 @@ static struct raw_trk *add_track_layout(
 
     ASSERT(im->img.trk_info != NULL);
 
-    if (nr_sectors > 256)
+    if (nr_sectors > 256) {
+        printk("**** nr_sectors > 256.\n");
         F_die(FR_BAD_IMAGE);
+    }
 
     sec = im->img.sec_info_base - nr_sectors;
     trk = (struct raw_trk *)align_p(sec) - trk_idx - 1;
@@ -2265,8 +2277,10 @@ static void finalise_track_map(struct image *im)
         trk = &im->img.trk_info[*trk_map++];
         sec = &im->img.sec_info_base[trk->sec_off];
         for (j = 0; j < trk->nr_sectors; j++) {
-            if (sec->n > 6)
+            if (sec->n > 6) {
+                printk("**** sec->n > 6.\n");
                 F_die(FR_BAD_IMAGE);
+            }
             sec++;
         }
     }

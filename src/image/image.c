@@ -205,6 +205,7 @@ void image_open(struct image *im, struct slot *slot, DWORD *cltbl)
         return;
 
     /* No handler found: bad image. */
+    printk("**** No handler found: bad image.\n");
     F_die(FR_BAD_IMAGE);
 }
 
